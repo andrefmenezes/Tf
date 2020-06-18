@@ -159,7 +159,7 @@
             </fieldset>
             
             <button type="submit">
-                Concluir operação
+                Cadastrar operação
             </button>
         </form>
     
@@ -257,7 +257,7 @@ export default {
     border-radius: 29px;
     max-width:730px ;
     max-height: 600px;
-    margin-top: 30%;
+    margin-top: 50%;
 
     
 }
