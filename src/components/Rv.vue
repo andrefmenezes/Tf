@@ -11,7 +11,7 @@
 
    
       <div class="tb-rv">
-            <table  border="1">
+            <table id="tbl-rv"  border="1">
     <tr>
         <th>%</th>
         <th>Ativos</th>
@@ -21,96 +21,10 @@
         <th>Custo Total </th>
         <th>Valor Total</th>
         <th>Variação</th>
- 
+       <th>         </th>
     </tr>
-    <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-     <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-     <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-     <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-     <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-     <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr> <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr> <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr> <tr>
-        <td>10%</td>
-        <td>ITSA4</td>
-        <td>10</td>
-        <td>10</td>
-        <td>12</td>
-        <td>100</td>
-        <td>120</td>
-        <td>+20</td>
-    </tr>
-    
+   
+     
    
 </table>
 
@@ -120,7 +34,7 @@
 
   </div>
     <div class="p2-rv">
-         <form class="f-rv" action="">          
+         <div class="f-rv" action="">          
 
             <fieldset>           
         <div class="field-group-rv">
@@ -137,16 +51,16 @@
             
             <div class="field-rv">
               <label for="ativo">Ativo:</label>
-              <input type="text" name="ativo">
+              <input type="text" name="ativo" id="ativo">
             </div>
             <div class="field-rv">
                <label for="preco">Preço:</label>
-                <input type="number" name="preco">
+                <input type="number" name="preco" id="preco">
 
             </div>
              <div class="field-rv">
                <label for="qtd">Quantidade:</label>
-                <input type="number" name="qtd">
+                <input type="number" name="qtd" id="qtd">
 
             </div>
              <div class="field-rv">
@@ -158,10 +72,10 @@
         </div>
             </fieldset>
             
-            <button type="submit">
+            <button v-on:click="adicionaLinha('tbl-rv')">
                 Cadastrar operação
             </button>
-        </form>
+        </div>
     
   </div>
   </div>
@@ -175,7 +89,48 @@ export default {
    components:{
        navbar
     
-  }
+  }, methods:{
+adicionaLinha(idTabela) {
+            var at = document.getElementById('ativo');            
+            var ativo = at.value;           
+             var qt = document.getElementById('qtd');
+             var qtd =qt.value;
+             var pr = document.getElementById('preco');
+             var preco =pr.value;
+             var pa = 10;
+                var tabela = document.getElementById(idTabela);
+                var numeroLinhas = tabela.rows.length;
+                var linha = tabela.insertRow(numeroLinhas);
+                var celula1 = linha.insertCell(0);
+                var celula2 = linha.insertCell(1); 
+                 var celula3 = linha.insertCell(2);        
+                 var celula4 = linha.insertCell(3); 
+                 var celula5 = linha.insertCell(4);
+                  var celula6 = linha.insertCell(5);
+                   var celula7 = linha.insertCell(6);
+                    var celula8 = linha.insertCell(7);
+                    var celula9 = linha.insertCell(8);   
+                    var ct=  qtd * preco
+                    var va =   qtd * pa
+                    var porc = (preco/va)*100   
+                    var vari = va - ct               
+                celula1.innerHTML = `${porc}%`
+                celula2.innerHTML = `${ativo}`
+                celula3.innerHTML=`${qtd}`
+                 celula4.innerHTML=`${preco}`
+                  celula5.innerHTML=`${pa}`
+                   celula6.innerHTML=`${ct}`
+                celula7.innerHTML=`${va}`
+                celula8.innerHTML=`${vari}`
+                 celula9.innerHTML =  '<button v-on:click="removeLinha(this)">Remover</button>';
+                
+            },
+            removeLinha(linha) {
+              var i=linha.parentNode.parentNode.rowIndex;
+              document.getElementById('tbl-rv').deleteRow(i);
+            }            
+           
+  },
 };
 </script>
 
@@ -208,7 +163,7 @@ export default {
 .tb-rv{
  
   background-color: #0c3a2d;
-  min-width: 50%;
+  min-width: 100%;
   min-height: 50vh;   
   text-align: center;
   padding: 0.4%;
@@ -257,7 +212,8 @@ export default {
     border-radius: 29px;
     max-width:730px ;
     max-height: 600px;
-    margin-top: 50%;
+    margin-top: 40%;
+    margin-bottom: 5%;
 
     
 }
