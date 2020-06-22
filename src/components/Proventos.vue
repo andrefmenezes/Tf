@@ -10,7 +10,7 @@
         <strong>Proventos:</strong>
       </div>
       <div class="tb-pv">
-<table border="1">
+<table id="tbl" border="1">
     <tr>
         <th>Mês-Ano</th>
         <th>Proventos</th>
@@ -18,54 +18,18 @@
  
     </tr>
     <tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
         
         
+        
     </tr>
-    <tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr>
-    <tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr>
-   <tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr><tr>
-        <td>Março-2020</td>
-        <td>10,79</td>
-    </tr>
-    <tr>
-        <td>Março-2020</td>
-        <td>10,89</td>
-    </tr>
+    
 </table>
       </div>
     </div>
     <div class="p2-pv">
     <div class="pv-total">
       <strong>Total de Proventos:</strong>
+      <strong id="qtdtotal"></strong>
     </div>
 
 
@@ -74,7 +38,7 @@
     </div>
       
        <div class="p3-pv">
-  <form class="pv" action="">
+  <form class="pv" method="GET" v-on:submit="adicionaLinha('tbl');" >
 
  
 
@@ -93,11 +57,11 @@
             </div>
             <div class="field-pv">
               <label for="prov">Proventos:</label>
-              <input type="number" name="prov">
+              <input type="number" name="prov" id="prov" required>
             </div>
             <div class="field-pv">
                 <label for="pv-data">Data:</label>
-                <input type="date" name="pv-data">
+                <input type="date" name="pv-data" id="dt" required>
 
             </div>
           
@@ -105,7 +69,7 @@
         </div>
             </fieldset>
             
-            <button type="submit">
+            <button type="submit" >
                 Concluir operação
             </button>
         </form>
@@ -116,7 +80,7 @@
   </div>
   </div>
 </template>
-
+<script src="jquery-3.3.1.min.js"></script>
 <script>
 import navbar from './Navbar.vue'
 export default {
@@ -124,7 +88,38 @@ export default {
    components:{
        navbar
     
-  }
+  }, methods:{
+adicionaLinha(idTabela) {
+            var dt = document.getElementById('dt');
+            
+            var data = dt.value;
+           
+             var prov = document.getElementById('prov');
+             var provento =prov.value;
+
+                var tabela = document.getElementById(idTabela);
+                var numeroLinhas = tabela.rows.length;
+                var linha = tabela.insertRow(numeroLinhas);
+                var celula1 = linha.insertCell(0);
+                var celula2 = linha.insertCell(1);                   
+                celula1.innerHTML = `${data}`
+                celula2.innerHTML = `${provento}`
+                 var tot = document.getElementById( qtdtotal);
+                 total = celula2++
+                tot.innerHTML = `${total}`
+                
+            },
+            calcTot(){
+               var tabela = document.getElementById(idTabela);
+               var tot = document.getElementById( qtdtotal);
+                var numeroLinhas = tabela.rows.length;
+                var linha = tabela.insertRow(numeroLinhas);                
+                var celula2 = linha.insertCell(1);                   
+                total = celula2++
+                tot.innerHTML = `${total}`
+               
+            }
+  },
 };
 </script>
 
@@ -222,7 +217,7 @@ export default {
     padding:64px;    
     border-radius: 29px;
     max-width:730px ;
-    height: 50%;
+    max-height: 430px;
     margin-top: 35%;
     
 }
@@ -251,7 +246,7 @@ export default {
 
 }
 
-.pv  input,form select{
+.pv  input,.pv select{
     background-color: #C4C4C4;
     outline:none;/*tira a linha preta*/
     border: 0;
