@@ -9,6 +9,10 @@
       <div class="port-title">
         <strong>Portifólio:</strong>
       </div>
+<div class="canvas-wrapper">
+    <canvas id="canvas3"></canvas>
+</div>
+
     </div>
     <div class="port-group">
       <div class="grid-celula">

@@ -90,13 +90,10 @@ export default {
     
   }, methods:{
 adicionaLinha(idTabela) {
-            var dt = document.getElementById('dt');
-            
-            var data = dt.value;
-           
+            var dt = document.getElementById('dt');            
+            var data = dt.value;           
              var prov = document.getElementById('prov');
              var provento =prov.value;
-
                 var tabela = document.getElementById(idTabela);
                 var numeroLinhas = tabela.rows.length;
                 var linha = tabela.insertRow(numeroLinhas);

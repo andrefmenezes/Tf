@@ -122,12 +122,13 @@ adicionaLinha(idTabela) {
                    celula6.innerHTML=`${ct}`
                 celula7.innerHTML=`${va}`
                 celula8.innerHTML=`${vari}`
-                 celula9.innerHTML =  '<button v-on:click="removeLinha(this)">Remover</button>';
+                 celula9.innerHTML =  '<button v-on:click="removeLinha()">Remover</button>';
                 
             },
-            removeLinha(linha) {
-              var i=linha.parentNode.parentNode.rowIndex;
-              document.getElementById('tbl-rv').deleteRow(i);
+            removeLinha() {
+             // var i=linha.parentNode.parentNode.rowIndex;
+             var tabela = document.getElementById('tbl-rv');
+              tabela.deleteRow(1);
             }            
            
   },

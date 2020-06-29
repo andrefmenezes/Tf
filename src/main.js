@@ -9,6 +9,9 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 
 
 
+
+
+
 library.add(far,fas)
  
 Vue.component('font-awesome-icon', FontAwesomeIcon)
