@@ -26,12 +26,12 @@
             </thead>
 
             <tbody>
-              <tr v-for="(ativo) of ativos" :key="ativo.id_ativo">
-                <td   >{{ precoAtual(ativo.name_ativo) }}</td>
+              <tr v-for="(ativo,index) of ativos" :key="ativo.id_ativo">
+                <td>{{ skills.preult }}</td>
                 <td>{{ativo.name_ativo}}</td>
                 <td>{{ativo.qtd_ativo}}</td>
                 <td>{{ativo.pm_ativo}}</td>
-                <td>{{ porcent }}</td>
+                <td>{{ pa[pa.length-1 - index] }}</td>
                 <td>{{((ativo.qtd_ativo.toString().replace(",", ".")) *(ativo.pm_ativo.toString().replace(",", "."))).toFixed(2)}}</td>
                 <td>{{}}</td>
                 <td>{{}}</td>
@@ -93,6 +93,7 @@
 import navbar from "./Navbar.vue";
 import Ativo from "../services/ativos";
 import * as moment from "moment";
+import axios from 'axios';
 export default {
   name: "Rv",
   components: {
@@ -112,24 +113,25 @@ export default {
       pa: [],
       porcent: 0,
       va: 0,
-      variacao: 0
+      variacao: 0,
+      skills: '',
     };
   },
   mounted() {
     this.listar();
+    this.momo();
+    
   },
   methods: {
-    precoAtual(nome) {
-      var data_ontem = moment()
-        .subtract("1", "days")
-        .format("YYYYMMDD");
-
-      const bovespa = require("bovespa")();
-      bovespa(nome, data_ontem).then(data => {
-          this.va = data.preult;
-          console.log(data.preult)
-      });
-      return this.va
+    async momo(){
+      try {
+    let response = await axios.get(`https://bovespa.nihey.org/api/quote/abev3/2020-07-02`);
+    this.skills = response.data;
+    console.log(this.skills.preult)
+    //return this.skills.preult;
+  } catch(e) {
+    console.error(e);
+  }
     },
     listar() {
       var data_ontem = moment()
@@ -140,27 +142,29 @@ export default {
         this.ativos = res.data;
 
         for (let index = 0; index < this.ativos.length; index++) {
-          var i = this.ativos[index].name_ativo;
-          // console.log(i);
-          const bovespa = require("bovespa")();
-          bovespa(i, data_ontem).then(data => {
-            this.pa.push(data.preult);
-            // console.log(this.pa.preult);
-          });
-        }
-        // console.log(this.pa);
+         // var i = this.ativos[index].name_ativo;
+         // console.log('[DEBUG] PAPEL', i)
+           const bovespa = require("bovespa")();
+          bovespa(this.ativos[index].name_ativo, data_ontem).then(data => {
+            this.pa.unshift(data.preult)
+          console.log('[DEBUG] PREÇO Pult',this.ativos[index].name_ativo,data.preult);
+          console.log('[DEBUG] PREÇO PA',this.ativos[index].name_ativo,this.pa);
+          }); //
+          
+        }        
+         //console.log('[DEBUG] PREÇO ATUAL',this.pa)
       });
 
-      //   var ti = 'ABEV3'
-      //    const bovespa = require("bovespa")();
-      //    bovespa(ti, data_ontem).then(data => {
-      //      this.pa =  data
-      //   console.log(this.pa)
-      //   });
-      //   console.log(this.pa)
+    //   var ti = 'ABEV3'
+    //    const bovespa = require("bovespa")();
+    //    bovespa(ti, data_ontem).then(data => {
+    //      this.pa =  data
+    //   console.log(this.pa)
+    //   });
+    //   console.log(this.pa)
 
-      //   bovespa(ti, data_ontem).then(console.log);
-    },
+    //   bovespa(ti, data_ontem).then(console.log);
+     },
 
     salvar() {
       if (!this.ativo.id_ativo) {
@@ -202,7 +206,8 @@ export default {
       celula1.innerHTML = `${preco}%`;
       celula2.innerHTML = `${pr}`;
     }
-  }
+  },
+  
 };
 </script>
 
