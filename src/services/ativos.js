@@ -2,22 +2,22 @@ import { api } from './config'
 
 export default	{
 
-	salvar:(user)=>{
+	salvar:(ativo)=>{
 		//console.log('SALVAR',user)
-		return api.post('user',user);
+		return api.post('ativo',ativo);
   },
     
-	atualizar:(user)=>{
-		return api.put('users/'+user.id_user,user);
+	atualizar:(ativo)=>{
+		return api.put('ativos/'+ativo.id_ativo,ativo);
   },
 
   listar:()=>{
-		return api.get('user')
+		return api.get('ativo')
   },
     
-	apagar:(user)=>{
+	apagar:(ativo)=>{
 		//console.log('USER de', user); 
 		//console.log('de', user.id_user);
-		return api.delete('user/'+user.id_user, { data: user })
+		return api.delete('ativo/'+ativo.id_ativo, { data: ativo })
 	}
 }

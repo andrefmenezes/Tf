@@ -8,6 +8,7 @@
       <div class="p1-pv">
         <div class="prov-title">
           <strong>Proventos:</strong>
+          
         </div>
         <div class="tb-pv">
           <table id="tbl" border="1">
@@ -15,6 +16,7 @@
               <tr>
                 <th>Mês-ano</th>
                 <th>Proventos</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -42,13 +44,22 @@
       </div>
       <div class="p2-pv">
         <div class="pv-total">
-          <strong>Total de Proventos:</strong>
-          <strong id="qtdtotal"></strong>
+        <div class="pv-total-1">
+ <strong id="title">Total de Proventos:</strong>
+        </div>
+         
+         <div class="pv-total-1">
+           <strong>{{this.soma}}</strong>
+         </div>
+
+         
+          
         </div>
       </div>
 
       <div class="p3-pv">
-        <form class="pv" @submit.prevent="salvar">
+        <!-- @submit.prevent evita a atualizaçao da pagina -->
+        <form class="pv" @submit="salvar">
           <fieldset>
             <div class="field-group-pv">
               <div class="field-pv">
@@ -81,11 +92,12 @@ export default {
     return {
       prov: {
         id_prov: "",
-        proventos: 0,
+        proventos: "",
         data_prov: ""
       },
       proventoss: [],
-      lala: 0,
+      soma: 0,
+     
     };
   },
   mounted() {
@@ -95,13 +107,13 @@ export default {
     listar() {
       Prov.listar().then(res => {
         this.proventoss = res.data;
-        var element = 0
+        
         for (let index = 0; index < this.proventoss.length; index++) {
           var i =this.proventoss[index].proventos.toString().replace(",", ".");
-          element = element + parseFloat(i);
+          this.soma = this.soma + parseFloat(i);
           
         }
-          console.log(element)
+         
       });
     },
 
@@ -110,6 +122,7 @@ export default {
         Prov.salvar(this.prov).then(res => {
           this.prov = res.data;
           alert("ok");
+          this.prov = {};
           this.listar();
         });
       } else {
@@ -132,14 +145,7 @@ export default {
         this.listar();
       });
     },
-    // soma() {
-    //   this.listar();
-    //   console.log(this.proventoss);
-    //   for (let index = 0; index < this.proventos.length; index++) {
-    //     var soma = 0;
-    //     soma += this.proventos[index][2];
-    //   }
-    // }
+    
   }
 };
 </script>
@@ -218,8 +224,9 @@ td {
   text-align: center;
 }
 .tb-pv table {
-  margin-left: 5%;
+  margin-left: 2%;
   border-spacing: 5px;
+  margin-right: 2%;
 }
 .pv-total {
   background-color: #0c3a2d;
@@ -229,7 +236,9 @@ td {
   padding: 2%;
   display: flex;
   justify-content: center;
-  margin-top: 75%;
+  margin-top: 75%;  
+  flex-direction: column;
+  align-items: center;
 }
 .pv {
   background-color: #048084;
@@ -330,4 +339,13 @@ td {
   -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
 }
+
+
+.pv-total-1{
+flex: 1; /*prencher o espaço que falta*/
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
 </style>
